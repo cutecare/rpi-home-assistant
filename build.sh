@@ -59,7 +59,7 @@ RUN apt-get update && \
       libffi-dev libpython-dev libssl-dev \
       libudev-dev \
       bluetooth libbluetooth-dev \
-      net-tools nmap \
+      net-tools gattlib nmap \
       iputils-ping \
       ssh && \
     apt-get clean && \

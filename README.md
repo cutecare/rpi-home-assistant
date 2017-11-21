@@ -19,37 +19,18 @@ To build a Docker image with the version of Home Assistant found at https://pypi
 To build a Docker image with a specific version of Home Assistant run `./build.sh x.y.z` (`./build.sh 0.23.1` for example).
 
 ## Simple usage
-`docker run -d --name hass -v /etc/localtime:/etc/localtime:ro lroguet/rpi-home-assistant:latest`
+`sudo mkdir /home/home-assistant`
+`cd /home/home-assistant`
 
-## Additional parameters
-### Persistent configuration
-Create a folder where you want to store your Home Assistant configuration (/home/pi/home-assistant/configuration for example) and add this data volume to the container using the `-v` flag.
+### Docker setup
+`sudo wget -O package.deb https://download.docker.com/linux/raspbian/dists/jessie/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb`
+`sudo dpkg -i /home/home-assistant/package.deb`
 
-`docker run -d --name hass -v /etc/localtime:/etc/localtime:ro -v /home/pi/home-assistant/configuration:/config lroguet/rpi-home-assistant:latest`
+### Home Assistant setup
+`sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro lroguet/rpi-home-assistant:latest`
 
-### Enable uPnP discovery
-In order to enable the discovery feature (for devices such as Google Chromecasts, Belkin WeMo switches, Sonos speakers, ...) Home Assistant must run on the same network as the devices. The `--net=host` Docker option is needed.
-
-`docker run -d --name hass --net=host -v /etc/localtime:/etc/localtime:ro lroguet/rpi-home-assistant:latest`
-
-## Usage
-### One-liner
-`docker run -d --name hass --net=host -v /etc/localtime:/etc/localtime:ro -v /home/pi/home-assistant/configuration:/config lroguet/rpi-home-assistant:latest`
-
-### With Docker Compose
-
-```yml
-# docker-compose.yml
-hass:
-  container_name: hass
-  image: lroguet/rpi-home-assistant:latest
-  net: host
-  volumes:
-    - /home/pi/home-assistant/configuration:/config
-    - /etc/localtime:/etc/localtime:ro
-```
-
-`docker-compose run -d --service-ports hass`
+## Logs
+`sudo docker logs hass`
 
 ## Links
 * [Home Assistant, Docker & a Raspberry Pi](https://fourteenislands.io/home-assistant-docker-and-a-raspberry-pi/)

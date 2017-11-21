@@ -19,12 +19,12 @@ To build a Docker image with the version of Home Assistant found at https://pypi
 To build a Docker image with a specific version of Home Assistant run `./build.sh x.y.z` (`./build.sh 0.23.1` for example).
 
 ## Simple usage
-`sudo mkdir /home/home-assistant`
-`cd /home/home-assistant`
+`sudo mkdir /home/home-assistant
+cd /home/home-assistant`
 
 ### Docker setup
-`sudo wget -O package.deb https://download.docker.com/linux/raspbian/dists/jessie/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb`
-`sudo dpkg -i /home/home-assistant/package.deb`
+`sudo wget -O package.deb https://download.docker.com/linux/raspbian/dists/jessie/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb
+sudo dpkg -i /home/home-assistant/package.deb`
 
 ### Home Assistant setup
 `sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro lroguet/rpi-home-assistant:latest`

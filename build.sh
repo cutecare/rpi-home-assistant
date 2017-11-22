@@ -75,6 +75,9 @@ CMD [ "python3", "-m", "homeassistant", "--config", "/config" ]
 RUN pip3 install wheel
 RUN pip3 install homeassistant==$HA_VERSION
 RUN pip3 install aiohttp_cors
+
+# Install gattlib
+RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linux-gnueabihf/libboost_python-py34.so
 RUN pip3 install gattlib
 _EOF_
 

@@ -34,6 +34,12 @@ To build a Docker image with a specific version of Home Assistant run `./build.s
 ## Logs
 `sudo docker logs hass`
 
+## Enable Bluetooth module
+`sudo apt-get install rfkill` 
+`sudo rfkill unblock all` 
+`sudo systemctl restart bluetooth` 
+`hciconfig`
+
 ## Links
 * [Home Assistant, Docker & a Raspberry Pi](https://fourteenislands.io/home-assistant-docker-and-a-raspberry-pi/)
 * [Docker public repository](https://hub.docker.com/r/lroguet/rpi-home-assistant/)

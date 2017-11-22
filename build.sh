@@ -59,7 +59,7 @@ RUN apt-get update && \
       libffi-dev libpython-dev libssl-dev \
       libudev-dev \
       bluetooth libbluetooth-dev \
-      net-tools gattlib nmap \
+      net-tools rfkill nmap \
       iputils-ping \
       ssh && \
     apt-get clean && \
@@ -75,6 +75,7 @@ CMD [ "python3", "-m", "homeassistant", "--config", "/config" ]
 RUN pip3 install wheel
 RUN pip3 install homeassistant==$HA_VERSION
 RUN pip3 install aiohttp_cors
+RUN pip3 install gattlib
 _EOF_
 
 ## #####################################################################

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 HA_LATEST=false
-DOCKER_IMAGE_NAME="lroguet/rpi-home-assistant"
+DOCKER_IMAGE_NAME="cutecare/rpi-home-assistant"
 RASPIAN_RELEASE="stretch"
 
 log() {
@@ -40,19 +40,13 @@ fi
 ## #####################################################################
 cat << _EOF_ > Dockerfile
 FROM resin/rpi-raspbian:$RASPIAN_RELEASE
-MAINTAINER Ludovic Roguet <code@fourteenislands.io>
+MAINTAINER Evgeny Savitsky <evgeny.savitsky@gmail.com>
 
 # Base layer
 ENV ARCH=arm
 ENV CROSS_COMPILE=/usr/bin/
 
-# Install some packages
-# #1:   20160803 - Added net-tools and nmap for https://home-assistant.io/components/device_tracker.nmap_scanner/
-# #3:   20161021 - Added ssh for https://home-assistant.io/components/device_tracker.asuswrt/
-# #8:   20170313 - Added ping for https://home-assistant.io/components/switch.wake_on_lan/
-# #10:  20170328 - Added libffi-dev, libpython-dev and libssl-dev for https://home-assistant.io/components/notify.html5/
-# #11:	20170628 - Added libud3v-dev for https://home-assistant.io/components/zwave/
-# #14: 	20170802 - Added bluetooth and libbluetooth-dev for https://home-assistant.io/components/device_tracker.bluetooth_tracker/
+# Install required packages
 RUN apt-get update && \
     apt-get install --no-install-recommends \
       build-essential python3-dev python3-pip python3-setuptools \

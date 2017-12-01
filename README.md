@@ -10,6 +10,11 @@ Generate a Dockerfile, build a Raspberry Pi compatible Docker image with [Home A
 
 *Note. You may want to update the `DOCKER_IMAGE_NAME` variable at the beginning of the `build.sh` script to build a custom Docker image and push it to your own Docker repository.*
 
+### Prerequisite
+
+sudo apt-get install jq curl
+*Note. Install docker
+
 ### Latest version
 To build a Docker image with the version of Home Assistant found at https://pypi.python.org/pypi/homeassistant/json just run `./build.sh`
 

@@ -34,7 +34,7 @@ To build a Docker image with a specific version of Home Assistant run `./build.s
 `sudo dpkg -i /home/home-assistant/package.deb`
 
 ### Home Assistant setup
-`sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro lroguet/rpi-home-assistant:latest`
+`sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest`
 
 ## Logs
 `sudo docker logs hass`

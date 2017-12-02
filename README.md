@@ -12,13 +12,13 @@
 
 ### Установка Docker на Rasberry Pi
 
-`sudo wget --secure-protocol=TLSv1 --no-check-certificate -O package.deb https://download.docker.com/linux/raspbian/dists/jessie/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb`
-
-`sudo dpkg -i /home/home-assistant/package.deb`
-
 `mkdir /home/home-assistant`
 
 `cd /home/home-assistant`
+
+`sudo wget --secure-protocol=TLSv1 --no-check-certificate -O package.deb https://download.docker.com/linux/raspbian/dists/jessie/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb`
+
+`sudo dpkg -i /home/home-assistant/package.deb`
 
 ### Установка Home Assistant в форме Docker-контейнера
 

@@ -1,51 +1,58 @@
-[![lroguet/rpi-home-assistant](https://img.shields.io/docker/pulls/lroguet/rpi-home-assistant.svg)](https://hub.docker.com/r/lroguet/rpi-home-assistant/)
-[![lroguet/rpi-home-assistant](https://images.microbadger.com/badges/version/lroguet/rpi-home-assistant.svg)](https://hub.docker.com/r/lroguet/rpi-home-assistant/) [![lroguet/rpi-home-assistant](https://images.microbadger.com/badges/image/lroguet/rpi-home-assistant.svg)](https://hub.docker.com/r/lroguet/rpi-home-assistant/)
+# Docker-образ Home Assistant для установки на Raspberry Pi
 
-# Home Assistant Docker image for Raspberry Pi
+Этот образ специальным образом подготовлен для установки Home Assistant на Raspberry Pi в виде Docker-контейнера, что существенно упрощает установку и обновление ПО. В образе выполняется установка необходимого дополнительного ПО, решаются конфликты зависимостей и т.п. Docker-образ изолирует Home Assistant от другого установленного ПО, таким образом, на одном Raspberry Pi вы можете разместить совершенно различный софт, который не будет мешать друг другу.
 
-## Description
-Generate a Dockerfile, build a Raspberry Pi compatible Docker image with [Home Assistant](https://home-assistant.io/) and push it to https://hub.docker.com.
+## Использование образа для установки Home Assistant
 
-## Build & push
+После установки ОС Raspbian в каком-либо виде, необходимо открыть терминал или подключиться к ОС посредством ssh и выполнить следующие команды:
 
-*Note. You may want to update the `DOCKER_IMAGE_NAME` variable at the beginning of the `build.sh` script to build a custom Docker image and push it to your own Docker repository.*
+`sudo -s`
 
-### Prerequisite
+`sudo apt-get update && sudo apt-get -y upgrade` 
 
-sudo apt-get install jq curl
-*Note. Install docker
+### Установка Docker на Rasberry Pi
 
-### Latest version
-To build a Docker image with the version of Home Assistant found at https://pypi.python.org/pypi/homeassistant/json just run `./build.sh`
-
-*Note. This build case requires you have 'jq' installed.*
-
-### Specific version
-To build a Docker image with a specific version of Home Assistant run `./build.sh x.y.z` (`./build.sh 0.23.1` for example).
-
-## Simple usage
-`sudo mkdir /home/home-assistant`
-
-`cd /home/home-assistant`
-
-### Docker setup
-`sudo wget -O package.deb https://download.docker.com/linux/raspbian/dists/jessie/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb`
+`sudo wget --secure-protocol=TLSv1 --no-check-certificate -O package.deb https://download.docker.com/linux/raspbian/dists/jessie/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb`
 
 `sudo dpkg -i /home/home-assistant/package.deb`
 
-### Home Assistant setup
+`mkdir /home/home-assistant`
+
+`cd /home/home-assistant`
+
+### Установка Home Assistant в форме Docker-контейнера
+
+Параметры контейнера (hass) указаны таким образом, чтобы Home Assistant запускался при старте ОС, веб-интерфейс открывался по порту 8123, конфигурационные файлы находились в каталоге /home/home-assistant
+
 `sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest`
 
-## Logs
+## Просмотра логов Home Assistant
+
 `sudo docker logs hass`
 
-## Enable Bluetooth module
+## Включение Bluetooth
+
+По умолчанию модуль Bluetooth может быть отключен. Выполните команды ниже, чтобы снять блокировку с модуля.
+
 `sudo apt-get install rfkill` 
+
 `sudo rfkill unblock all` 
+
 `sudo systemctl restart bluetooth` 
+
 `hciconfig`
 
-## Links
-* [Home Assistant, Docker & a Raspberry Pi](https://fourteenislands.io/home-assistant-docker-and-a-raspberry-pi/)
-* [Docker public repository](https://hub.docker.com/r/lroguet/rpi-home-assistant/)
-* [Home Assistant](https://home-assistant.io/)
+## Сборка и публикация образа
+
+Вы можете доработать образ, добавив туда необходимых компонентов.
+
+### Необходимое ПО
+
+Сборку и публикацию образа можно выполнять, например, на [Ubuntu Studio](https://ubuntustudio.org/), установленной на ПК или в виде  [виртуальной машины](https://www.virtualbox.org/)
+
+В зависимости от используемой ОС, выберите подходящий способ [установки Docker](https://docs.docker.com/engine/installation/) и установите его. Затем выполните следующие команды:
+
+ `sudo -s`
+ `apt-get install jq curl git` 
+ `git clone https://github.com/cutecare/rpi-home-assistant.git`
+ `./build.sh`

@@ -49,12 +49,12 @@ ENV CROSS_COMPILE=/usr/bin/
 # Install required packages
 RUN apt-get update && \
     apt-get install --no-install-recommends \
-      build-essential python3-dev python3-pip python3-setuptools \
+      apt-utils build-essential python3-dev python3-pip python3-setuptools \
       libffi-dev libpython-dev libssl-dev \
       libudev-dev \
       bluetooth libbluetooth-dev \
       net-tools rfkill nmap \
-      iputils-ping \
+      iputils-ping pkg-config \
       ssh && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

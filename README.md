@@ -8,7 +8,9 @@
 
 `sudo -s`
 
-`sudo apt-get update && sudo apt-get -y upgrade` 
+`apt-get update && apt-get -y upgrade` 
+
+`apt-get -y dist-upgrade` 
 
 ### Установка Docker на Rasberry Pi
 
@@ -34,17 +36,19 @@
 
 По умолчанию модуль Bluetooth может быть отключен. Выполните команды ниже, чтобы снять блокировку с модуля.
 
-`sudo apt-get install rfkill` 
+ `sudo -s`
 
-`sudo rfkill unblock all` 
+`apt-get -y install rfkill` 
 
-`sudo systemctl restart bluetooth` 
+`rfkill unblock all` 
+
+`systemctl restart bluetooth` 
 
 `hciconfig`
 
 ## Сборка и публикация образа
 
-Вы можете доработать образ, добавив туда необходимых компонентов.
+Вы можете доработать образ, добавив туда необходимых компонентов. Сборка образа выполняется на Raspberry Pi.
 
 ### Необходимое ПО
 
@@ -53,6 +57,9 @@
 В зависимости от используемой ОС, выберите подходящий способ [установки Docker](https://docs.docker.com/engine/installation/) и установите его. Затем выполните следующие команды:
 
  `sudo -s`
- `apt-get install jq curl git` 
- `git clone https://github.com/cutecare/rpi-home-assistant.git`
- `./build.sh`
+
+`apt-get -y install jq curl git` 
+
+`git clone https://github.com/cutecare/rpi-home-assistant.git`
+
+`./build.sh`

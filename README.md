@@ -8,7 +8,7 @@
 
 `sudo -s`
 
-`apt-get update && apt-get -y upgrade` 
+`apt-get update && apt-get -y upgrade && apt-get install libltdl7` 
 
 `apt-get -y -f dist-upgrade` 
 
@@ -90,6 +90,6 @@
 
 `sudo qemu-system-arm -kernel ./kernel-qemu-4.4.34-jessie -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw" -hda raspbian-stretch-lite.qcow -cpu arm1176 -m 256 -M versatilepb -no-reboot -redir tcp:2222::22 -serial stdio -net nic -net user -net tap,ifname=vnet0,script=no,downscript=no`
 
-После запуска Raspbian можно подключиться к ней по SSH и выполнить установку Docker-образа
+После запуска Raspbian можно подключиться к ней по SSH и выполнить установку Docker и Docker-образа HASS
 
 `ssh -p2222 pi@localhost`

@@ -28,7 +28,7 @@
 
 `sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest`
 
-### Просмотра логов Home Assistant
+### Просмотр логов Home Assistant
 
 `sudo docker logs hass`
 
@@ -68,4 +68,28 @@
 
 ## Проверка установки образа
 
-Проверку установки образа можно выполнить [виртуальной машине](http://www.makeuseof.com/tag/emulate-raspberry-pi-pc/)
+Проверку установки образа можно выполнить [виртуальной машине](http://www.makeuseof.com/tag/emulate-raspberry-pi-pc/). Используйте, например, Ubuntu Studio.
+
+Установите эмулятор QEMU
+
+`sudo apt-get install qemu-system`
+
+Скачайте дистрибутив [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) и [образ ядра](https://github.com/dhruvvyas90/qemu-rpi-kernel), например,
+
+`curl https://github.com/dhruvvyas90/qemu-rpi-kernel/raw/master/kernel-qemu-4.4.34-jessie`
+
+Распакуйте архив дистрибутива Raspbian и преобразуйте в образ QEMU
+
+`qemu-img convert -f raw -O qcow2 2017-11-29-raspbian-stretch-lite.img raspbian-stretch-lite.qcow`
+
+Увеличим размер диска
+
+`qemu-img resize raspbian-stretch-lite.qcow +6G`
+
+И запустим эмуляцию
+
+`sudo qemu-system-arm -kernel ./kernel-qemu-4.4.34-jessie -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw" -hda raspbian-stretch-lite.qcow -cpu arm1176 -m 256 -M versatilepb -no-reboot -redir tcp:2222::22 -serial stdio -net nic -net user -net tap,ifname=vnet0,script=no,downscript=no`
+
+После запуска Raspbian можно подключиться к ней по SSH и выполнить установку Docker-образа
+
+`ssh -p2222 pi@localhost`

@@ -28,9 +28,13 @@
 
 `sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest`
 
-## Просмотра логов Home Assistant
+### Просмотра логов Home Assistant
 
 `sudo docker logs hass`
+
+### Выполнение команд в образе Home Assistant
+
+`sudo docker exec hass echo 'hello from hass image'`
 
 ## Включение Bluetooth
 

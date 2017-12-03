@@ -82,7 +82,7 @@
 
 `qemu-img convert -f raw -O qcow2 2017-11-29-raspbian-stretch-lite.img raspbian-stretch-lite.qcow`
 
-Увеличим размер диска
+Увеличим размер файла с образом
 
 `qemu-img resize raspbian-stretch-lite.qcow +6G`
 
@@ -93,3 +93,11 @@
 После запуска Raspbian можно подключиться к ней по SSH и выполнить установку Docker и Docker-образа HASS
 
 `ssh -p2222 pi@localhost`
+
+Перед установкой рекомендуем изменить размер диска, иначе приложения могут не поместиться. Для этого используйте команду
+
+`sudo fdisk /dev/sda` 
+
+и дальше следуйте [инструкциям](https://gist.github.com/larsks/3933980), после перезагрузки выполните команду
+
+`sudo resize2fs /dev/sda2` 

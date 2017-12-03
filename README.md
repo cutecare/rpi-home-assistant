@@ -68,9 +68,9 @@
 
 ## Проверка установки образа
 
-Проверку установки образа можно выполнить [виртуальной машине](http://www.makeuseof.com/tag/emulate-raspberry-pi-pc/). Используйте, например, Ubuntu Studio.
+Проверку установки образа можно выполнить на [виртуальной машине](http://www.makeuseof.com/tag/emulate-raspberry-pi-pc/). Используйте, например, Ubuntu Studio для запуска эмулятора QEMU
 
-Установите эмулятор QEMU
+Установите эмулятор QEMU, он необходим чтобы эмулировать Raspbian для процессора ARM
 
 `sudo apt-get install qemu-system`
 

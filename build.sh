@@ -49,10 +49,10 @@ ENV CROSS_COMPILE=/usr/bin/
 # Install required packages
 RUN apt-get update && \
     apt-get install --no-install-recommends \
-      apt-utils build-essential python3-dev python3-pip python3-setuptools \
+      apt-utils build-essential python3-dev python3-pip python3-setuptools pkg-config \
       libffi-dev libpython-dev libssl-dev \
-      libudev-dev glib-2.0 bluetooth libbluetooth-dev \
-      net-tools rfkill nmap iputils-ping pkg-config \
+      libudev-dev bluetooth libbluetooth-dev \
+      net-tools rfkill nmap iputils-ping \
       ssh && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -71,7 +71,7 @@ RUN pip3 install aiohttp_cors
 # Install gattlib
 RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linux-gnueabihf/libboost_python-py34.so
 RUN apt-get update
-RUN apt-get -y install libboost-python-dev libboost-thread-dev
+RUN apt-get -y install glib-2.0 libboost-python-dev libboost-thread-dev
 RUN pip3 install gattlib
 _EOF_
 

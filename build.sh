@@ -51,10 +51,8 @@ RUN apt-get update && \
     apt-get install --no-install-recommends \
       apt-utils build-essential python3-dev python3-pip python3-setuptools \
       libffi-dev libpython-dev libssl-dev \
-      libudev-dev glib-2.0 \
-      bluetooth libbluetooth-dev \
-      net-tools rfkill nmap \
-      iputils-ping pkg-config \
+      libudev-dev glib-2.0 bluetooth libbluetooth-dev \
+      net-tools rfkill nmap iputils-ping pkg-config \
       ssh && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -72,9 +70,7 @@ RUN pip3 install aiohttp_cors
 
 # Install gattlib
 RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linux-gnueabihf/libboost_python-py34.so
-RUN ls -l /usr/lib/arm-linux-gnueabihf
-RUN apt-get -y install libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
-RUN ls -l /usr/lib/arm-linux-gnueabihf
+RUN apt-get -y install boost-python libbluetooth-dev
 RUN pip3 install gattlib
 _EOF_
 

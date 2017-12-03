@@ -70,7 +70,7 @@ RUN pip3 install aiohttp_cors
 
 # Install gattlib
 RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linux-gnueabihf/libboost_python-py34.so
-RUN apt-get -y install boost-python libbluetooth-dev
+RUN apt-get -y install libboost-python-dev
 RUN pip3 install gattlib
 _EOF_
 

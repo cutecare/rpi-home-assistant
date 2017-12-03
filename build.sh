@@ -66,6 +66,7 @@ CMD [ "python3", "-m", "homeassistant", "--config", "/config" ]
 # Install Home Assistant
 RUN pip3 install wheel
 RUN pip3 install homeassistant==$HA_VERSION
+RUN pip3 install sqlalchemy
 RUN pip3 install aiohttp_cors
 
 # Install gattlib

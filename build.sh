@@ -76,6 +76,15 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
 RUN apt-get update
 RUN apt-get -y install pkg-config libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
 RUN pip3 install gattlib
+
+# Switch on cutecare-platform branch
+RUN apt-get install -y git
+RUN cd /config
+RUN git clone https://github.com/cutecare/home-assistant.git
+RUN cd /config/home-assistant
+RUN git checkout cutecare-platform
+RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components
+RUN ln -s /config/home-assistant/homeassistant/components /usr/local/lib/python3.5/dist-packages/homeassistant/components
 _EOF_
 
 ## #####################################################################

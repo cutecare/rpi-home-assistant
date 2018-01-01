@@ -77,6 +77,11 @@ RUN apt-get update
 RUN apt-get -y install pkg-config libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
 RUN pip3 install gattlib
 
+#Install and configure cron
+RUN apt-get install -y cron
+RUN (sudo crontab -u root -l 2>/dev/null ; echo "*/10 * * * * root service bluetooth restart")| sudo crontab -u root -
+RUN service cron restart
+
 # Switch on cutecare-platform branch
 RUN apt-get install -y git
 RUN cd /config

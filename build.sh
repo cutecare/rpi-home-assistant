@@ -76,6 +76,7 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
 RUN apt-get update
 RUN apt-get -y install pkg-config libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
 RUN pip3 install gattlib
+RUN pip3 install cutecare-py
 
 #Install and configure cron
 RUN apt-get install -y cron

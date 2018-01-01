@@ -67,6 +67,7 @@ docker login
 sudo -s
 apt-get -y install jq curl git
 git clone https://github.com/cutecare/rpi-home-assistant.git
+cd rpi-home-assistant
 ./build.sh
 ```
 

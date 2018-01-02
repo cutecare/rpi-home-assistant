@@ -24,9 +24,8 @@ sudo dpkg -i package.deb
 Параметры контейнера (hass) указаны таким образом, чтобы Home Assistant запускался при старте ОС, веб-интерфейс открывался по порту 8123, конфигурационные файлы находились в каталоге /home/home-assistant
 
 ```
-sudo -s
-mkdir /home/home-assistant
-docker run -d --name hass --restart unless-stopped -p 8123:8123 --cap-add=SYS_ADMIN --cap-add=NET_ADMIN --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest
+sudo mkdir /home/home-assistant
+sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --cap-add=SYS_ADMIN --cap-add=NET_ADMIN --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest
 ```
 
 ### Просмотр логов Home Assistant

@@ -15,10 +15,8 @@ apt-get -y -f dist-upgrade
 ### Установка Docker на Rasberry Pi
 
 ```
-mkdir /home/home-assistant
-cd /home/home-assistant
 sudo wget --secure-protocol=TLSv1 --no-check-certificate -O package.deb https://download.docker.com/linux/raspbian/dists/jessie/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb
-sudo dpkg -i /home/home-assistant/package.deb
+sudo dpkg -i package.deb
 ```
 
 ### Установка Home Assistant в форме Docker-контейнера
@@ -26,7 +24,9 @@ sudo dpkg -i /home/home-assistant/package.deb
 Параметры контейнера (hass) указаны таким образом, чтобы Home Assistant запускался при старте ОС, веб-интерфейс открывался по порту 8123, конфигурационные файлы находились в каталоге /home/home-assistant
 
 ```
-sudo docker run -d --name hass --restart unless-stopped -p 8123:8123 --cap-add=SYS_ADMIN --cap-add=NET_ADMIN --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest
+sudo -s
+mkdir /home/home-assistant
+docker run -d --name hass --restart unless-stopped -p 8123:8123 --cap-add=SYS_ADMIN --cap-add=NET_ADMIN --net=host -v /home/home-assistant:/config -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest
 ```
 
 ### Просмотр логов Home Assistant

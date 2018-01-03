@@ -64,7 +64,7 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
    apt-get update && apt-get -y install git cron pkg-config libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
 
 # Install Python modules
-RUN pip3 install wheel xmltodict homeassistant sqlalchemy netdisco aiohttp_cors gattlib cutecare-py
+RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy netdisco aiohttp_cors gattlib cutecare-py
 
 # Configure cron
 RUN (sudo crontab -u root -l 2>/dev/null ; echo "*/10 * * * * root service bluetooth restart")| sudo crontab -u root - && \

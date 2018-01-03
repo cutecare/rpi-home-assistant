@@ -60,9 +60,6 @@ RUN apt-get update && \
 # Mouting point for the user's configuration
 VOLUME /config
 
-# Start Home Assistant
-CMD [ "python3", "-m", "homeassistant", "--config", "/config" ]
-
 # Install Home Assistant
 RUN pip3 install wheel
 RUN pip3 install xmltodict
@@ -88,6 +85,9 @@ RUN apt-get install -y git
 RUN git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant
 RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components
 RUN ln -s /config/home-assistant/homeassistant/components /usr/local/lib/python3.5/dist-packages/homeassistant/components
+
+# Start Home Assistant
+CMD [ "python3", "-m", "homeassistant", "--config", "/config" ]
 _EOF_
 
 ## #####################################################################

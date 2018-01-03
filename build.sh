@@ -85,8 +85,8 @@ RUN service cron restart
 
 # Switch on cutecare-platform branch
 RUN apt-get install -y git
-RUN cd /config
-RUN git clone https://github.com/cutecare/home-assistant.git
+RUN mkdir /config/home-assistant
+RUN git clone https://github.com/cutecare/home-assistant.git /config/home-assistant
 RUN cd /config/home-assistant
 RUN git checkout cutecare-platform
 RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components

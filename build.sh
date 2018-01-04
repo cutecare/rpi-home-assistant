@@ -71,9 +71,9 @@ RUN (sudo crontab -u root -l 2>/dev/null ; echo "*/10 * * * * root service bluet
    service cron restart
 
 # Switch on cutecare-platform branch
-RUN git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
-   rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components && \
-   ln -s /config/home-assistant/homeassistant/components /usr/local/lib/python3.5/dist-packages/homeassistant/components
+#RUN git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
+#   rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components && \
+#   ln -s /config/home-assistant/homeassistant/components /usr/local/lib/python3.5/dist-packages/homeassistant/components
 
 # Start Home Assistant
 CMD [ "python3", "-m", "homeassistant", "--config", "/config" ]

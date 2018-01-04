@@ -70,13 +70,12 @@ RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy netdis
 RUN (sudo crontab -u root -l 2>/dev/null ; echo "*/10 * * * * root service bluetooth restart")| sudo crontab -u root - && \
    service cron restart
 
-# Switch on cutecare-platform branch
-#RUN git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
-#   rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components && \
-#   ln -s /config/home-assistant/homeassistant/components /usr/local/lib/python3.5/dist-packages/homeassistant/components
+# Switch on cutecare-platform branch and run Home Assistant
+CMD git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
+   rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components && \
+   ln -s /config/home-assistant/homeassistant/components /usr/local/lib/python3.5/dist-packages/homeassistant/components && \
+   python3 -m homeassistant --config=/config
 
-# Start Home Assistant
-CMD [ "python3", "-m", "homeassistant", "--config", "/config" ]
 _EOF_
 
 ## #####################################################################

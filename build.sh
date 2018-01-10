@@ -51,7 +51,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends \
       apt-utils build-essential python3-dev python3-pip python3-setuptools \
       libffi-dev libpython-dev libssl-dev \
-      libudev-dev bluetooth hcidump \
+      libudev-dev bluetooth bluez-hcidump \
       net-tools rfkill nmap iputils-ping \
       ssh && \
     apt-get clean && \

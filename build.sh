@@ -71,7 +71,7 @@ RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components
 
 # Switch on cutecare-platform branch and run Home Assistant
 CMD rm -r /config/home-assistant && \
-   git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config && \
+   git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
    ln -s /config/home-assistant/homeassistant/components /usr/local/lib/python3.5/dist-packages/homeassistant/components && \
    python3 -m homeassistant --config=/config
 

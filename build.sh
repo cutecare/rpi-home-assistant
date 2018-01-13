@@ -64,13 +64,10 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
    apt-get update && apt-get -y install git cron pkg-config libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
 
 # Install Python modules
-RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy netdisco aiohttp_cors && \
-   pip3 install gattlib bluepy cutecare-py
+RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy netdisco aiohttp_cors bluepy
 
-# Configure cron
-RUN (sudo crontab -u root -l 2>/dev/null ; echo "*/10 * * * * root service bluetooth restart")| sudo crontab -u root - && \
-   service cron restart && \
-   rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components
+# Override homeassistant source code
+RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant/components
 
 # Switch on cutecare-platform branch and run Home Assistant
 CMD git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/tmp && \

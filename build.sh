@@ -79,7 +79,7 @@ RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
 CMD rm -r -f /config/home-assistant && \
    git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
    ln -s /config/home-assistant/homeassistant /usr/local/lib/python3.5/dist-packages/homeassistant && \
-   nohup npm start --prefix /home/wcode -- --headless --port 8080 /config > /config/wcode.log & && \
+   (nohup npm start --prefix /home/wcode -- --headless --port 8080 /config > /config/wcode.log &) && \
    python3 -m homeassistant --config=/config
 
 _EOF_

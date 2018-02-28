@@ -73,11 +73,9 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
 # Override homeassistant source code
 RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
 
-# Install default HASS/cutecare configuration
-RUN git clone https://github.com/cutecare/hass-cutecare-config.git /config
-
 # Switch on cutecare-platform branch and run Home Assistant
-CMD rm -r -f /config/home-assistant && \
+CMD ([ -f /config/configuration.yaml ] && echo "Skip default config" || git clone https://github.com/cutecare/hass-cutecare-config.git /config) && \
+   rm -r -f /config/home-assistant && \
    git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
    ln -s /config/home-assistant/homeassistant /usr/local/lib/python3.5/dist-packages/homeassistant && \
    (nohup npm start --prefix /home/wcode -- --headless --port 8080 /config > /config/wcode.log &) && \

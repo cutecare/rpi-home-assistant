@@ -64,7 +64,8 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
    apt-get update && apt-get -y install git cron pkg-config libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
 
 # Install Python modules
-RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy netdisco aiohttp_cors bluepy
+RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy \
+   netdisco aiohttp_cors bluepy yarl==0.18.0 voluptuous==0.10.5
 
 # Install wcode web-editor
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
@@ -72,7 +73,7 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
    git clone -b cutecare https://github.com/cutecare/wcode.git /home/wcode && \
    npm install --prefix /home/wcode nodejs express
 
-# Install default configuration
+# Install default HASS/cutecare configuration
 RUN git clone https://github.com/cutecare/hass-cutecare-config.git /config
 
 # Override homeassistant source code

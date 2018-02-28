@@ -76,15 +76,15 @@ RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
 # Install default HASS/cutecare configuration
 RUN git clone https://github.com/cutecare/hass-cutecare-config.git /config
 
-# Mouting point for the user's configuration
-VOLUME /config
-
 # Switch on cutecare-platform branch and run Home Assistant
 CMD rm -r -f /config/home-assistant && \
    git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
    ln -s /config/home-assistant/homeassistant /usr/local/lib/python3.5/dist-packages/homeassistant && \
    (nohup npm start --prefix /home/wcode -- --headless --port 8080 /config > /config/wcode.log &) && \
    python3 -m homeassistant --config=/config
+
+# Mouting point for the user's configuration
+VOLUME /config
 
 _EOF_
 

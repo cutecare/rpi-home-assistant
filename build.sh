@@ -69,8 +69,11 @@ RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy netdis
 # Install wcode web-editor
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
    apt-get -y install nodejs && \
-   npm install express && \
-   git clone -b cutecare https://github.com/cutecare/wcode.git /home/wcode
+   git clone -b cutecare https://github.com/cutecare/wcode.git /home/wcode && \
+   npm install --prefix /home/wcode nodejs express
+
+# Install default configuration
+RUN git clone https://github.com/cutecare/hass-cutecare-config.git /config
 
 # Override homeassistant source code
 RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant

@@ -57,15 +57,12 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Mouting point for the user's configuration
-VOLUME /config
-
 RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linux-gnueabihf/libboost_python-py34.so && \
    apt-get update && apt-get -y install git cron pkg-config libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
 
 # Install Python modules
 RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy \
-   netdisco aiohttp_cors bluepy yarl==0.18.0 voluptuous==0.10.5
+   netdisco aiohttp_cors bluepy yarl==0.18.0 voluptuous==0.10.5 home-assistant-frontend
 
 # Install wcode web-editor
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
@@ -73,11 +70,14 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
    git clone -b cutecare https://github.com/cutecare/wcode.git /home/wcode && \
    npm install --prefix /home/wcode nodejs express
 
+# Override homeassistant source code
+RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
+
 # Install default HASS/cutecare configuration
 RUN git clone https://github.com/cutecare/hass-cutecare-config.git /config
 
-# Override homeassistant source code
-RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
+# Mouting point for the user's configuration
+VOLUME /config
 
 # Switch on cutecare-platform branch and run Home Assistant
 CMD rm -r -f /config/home-assistant && \

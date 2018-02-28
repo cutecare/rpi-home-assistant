@@ -49,7 +49,7 @@ ENV CROSS_COMPILE=/usr/bin/
 # Install required packages
 RUN apt-get update && \
     apt-get install --no-install-recommends \
-      apt-utils build-essential python3-dev python3-pip python3-setuptools \
+      curl apt-utils build-essential python3-dev python3-pip python3-setuptools \
       libffi-dev libpython-dev libssl-dev \
       libudev-dev bluetooth bluez-hcidump \
       net-tools rfkill nmap iputils-ping \
@@ -66,6 +66,12 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
 # Install Python modules
 RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy netdisco aiohttp_cors bluepy
 
+# Install wcode web-editor
+RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
+   apt-get -y install nodejs && \
+   npm install express && \
+   git clone -b cutecare https://github.com/cutecare/wcode.git /home/wcode
+
 # Override homeassistant source code
 RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
 
@@ -73,6 +79,7 @@ RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
 CMD rm -r -f /config/home-assistant && \
    git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
    ln -s /config/home-assistant/homeassistant /usr/local/lib/python3.5/dist-packages/homeassistant && \
+   nohup npm start --prefix /home/wcode -- --headless --port 8080 /config > /config/wcode.log & && \
    python3 -m homeassistant --config=/config
 
 _EOF_

@@ -62,7 +62,7 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
 
 # Install Python modules
 RUN pip3 install wheel && pip3 install xmltodict homeassistant sqlalchemy \
-   netdisco aiohttp_cors bluepy yarl==0.18.0 voluptuous==0.10.5 home-assistant-frontend
+   netdisco aiohttp_cors bluepy yarl==0.18.0 voluptuous==0.10.5 home-assistant-frontend psutil
 
 # Install wcode web-editor
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \

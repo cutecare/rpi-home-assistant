@@ -61,7 +61,7 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
    apt-get update && apt-get -y install git cron pkg-config libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev python-dev
 
 # Install Python modules
-RUN pip3 install wheel && pip3 install xmltodict bluepy psutil homeassistant netdisco sqlalchemy home-assistant-frontend
+RUN pip3 install wheel && pip3 install xmltodict bluepy homeassistant netdisco sqlalchemy home-assistant-frontend psutil
 
 # Install wcode web-editor
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \

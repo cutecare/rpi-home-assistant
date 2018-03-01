@@ -77,6 +77,7 @@ RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
 CMD ([ -f /config/configuration.yaml ] && echo "Skip default config" || git clone https://github.com/cutecare/hass-cutecare-config.git /config) && \
    rm -r -f /config/home-assistant && \
    git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
+   pip3 install -r /config/home-assistant/homeassistant/package_constraints.txt && \
    ln -s /config/home-assistant/homeassistant /usr/local/lib/python3.5/dist-packages/homeassistant && \
    (nohup npm start --prefix /home/wcode -- --headless --port 8080 /config > /config/wcode.log &) && \
    python3 -m homeassistant --config=/config

@@ -19,6 +19,22 @@ docker run -d --name hass --restart unless-stopped -p 80:8123 -p 8080:8080 --cap
 sudo docker logs hass
 ```
 
+Чтобы логи не съедали все место на диске необходимо ограничить их размер.
+Сделать это можно следующим образом:
+
+```
+cat > /etc/docker/daemon.json << EOF
+{
+    "log-driver": "json-file",
+    "log-opts": {
+        "max-size": "2m",
+        "max-file": "5"
+    }
+}
+EOF
+service docker restart
+```
+
 ### Выполнение команд в образе Home Assistant
 
 ```

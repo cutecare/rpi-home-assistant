@@ -1,39 +1,8 @@
 #!/bin/bash
 
-HA_LATEST=false
+HA_VERSION="latest"
 DOCKER_IMAGE_NAME="cutecare/rpi-home-assistant"
 RASPIAN_RELEASE="stretch"
-
-log() {
-   now=$(date +"%Y%m%d-%H%M%S")
-   echo "$now - $*" >> /var/log/home-assistant/docker-build.log
-}
-
-log ">>--------------------->>"
-
-## #####################################################################
-## Home Assistant version
-## #####################################################################
-if [ "$1" != "" ]; then
-   # Provided as an argument
-   HA_VERSION=$1
-   log "Docker image with Home Assistant $HA_VERSION"
-else
-   _HA_VERSION="$(cat /var/log/home-assistant/docker-build.version)"
-   HA_VERSION="$(curl 'https://pypi.python.org/pypi/homeassistant/json' | jq '.info.version' | tr -d '"')"
-   HA_LATEST=true
-   log "Docker image with Home Assistant 'latest' (version $HA_VERSION)"
-fi
-
-## #####################################################################
-## For hourly (not parameterized) builds (crontab)
-## Do nothing: we're trying to build & push the same version again
-## #####################################################################
-if [ "$HA_LATEST" == true ] && [ "$HA_VERSION" == "$_HA_VERSION" ]; then
-   log "Docker image with Home Assistant $HA_VERSION has already been built & pushed"
-   log ">>--------------------->>"
-   exit 0
-fi
 
 ## #####################################################################
 ## Generate the Dockerfile
@@ -63,21 +32,27 @@ RUN ln -s /usr/lib/arm-linux-gnueabihf/libboost_python-py35.so /usr/lib/arm-linu
 # Install Python modules
 RUN pip3 install wheel && pip3 install xmltodict bluepy homeassistant netdisco sqlalchemy home-assistant-frontend psutil
 
+# Install nodejs
+RUN apt-get -y install curl gnupg gnupg2 && \
+   curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
+   apt-get -y install nodejs
+   
 # Install wcode web-editor
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
-   apt-get -y install nodejs && \
-   git clone -b cutecare https://github.com/cutecare/wcode.git /home/wcode && \
+RUN git clone -b cutecare https://github.com/cutecare/wcode.git /home/wcode && \
    npm install --prefix /home/wcode nodejs express
 
 # Override homeassistant source code
-RUN rm -r /usr/local/lib/python3.5/dist-packages/homeassistant
+RUN (rm -fr /usr/local/lib/python3.6/dist-packages/homeassistant || true) && \
+   (rm -fr /usr/local/lib/python3.5/dist-packages/homeassistant || true)
 
-# Switch on cutecare-platform branch and run Home Assistant
+# Switch on cutecare-platform branch
+RUN git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /home/home-assistant  && \
+   (pip3 install -r /home/home-assistant/homeassistant/package_constraints.txt 2> /dev/null || true)
+
+RUN ln -s /home/home-assistant/homeassistant /usr/local/lib/python3.6/dist-packages/homeassistant
+
+# Run Home Assistant
 CMD ([ -f /config/configuration.yaml ] && echo "Skip default config" || git clone https://github.com/cutecare/hass-cutecare-config.git /config) && \
-   rm -r -f /config/home-assistant && \
-   git clone -b cutecare-platform https://github.com/cutecare/home-assistant.git /config/home-assistant && \
-   (pip3 install -r /config/home-assistant/homeassistant/package_constraints.txt 2> /dev/null || true) && \
-   ln -s /config/home-assistant/homeassistant /usr/local/lib/python3.5/dist-packages/homeassistant && \
    (nohup npm start --prefix /home/wcode -- --headless --port 8080 /config > /config/wcode.log &) && \
    python3 -m homeassistant --config=/config
 
@@ -89,20 +64,10 @@ _EOF_
 ## #####################################################################
 ## Build the Docker image, tag and push to https://hub.docker.com/
 ## #####################################################################
-log "Building $DOCKER_IMAGE_NAME:$HA_VERSION"
+
 ## Force-pull the base image
 docker pull resin/rpi-raspbian:$RASPIAN_RELEASE
 docker build -t $DOCKER_IMAGE_NAME:$HA_VERSION .
 
-log "Pushing $DOCKER_IMAGE_NAME:$HA_VERSION"
 docker push $DOCKER_IMAGE_NAME:$HA_VERSION
 
-if [ "$HA_LATEST" = true ]; then
-   log "Tagging $DOCKER_IMAGE_NAME:$HA_VERSION with latest"
-   docker tag $DOCKER_IMAGE_NAME:$HA_VERSION $DOCKER_IMAGE_NAME:latest
-   log "Pushing $DOCKER_IMAGE_NAME:latest"
-   docker push $DOCKER_IMAGE_NAME:latest
-   echo $HA_VERSION > /var/log/home-assistant/docker-build.version
-fi
-
-log ">>--------------------->>"

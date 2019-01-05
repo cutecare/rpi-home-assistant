@@ -18,7 +18,7 @@ echo "Usage: ./autosizer.sh "
 exit
 fi
 
-if [[ ! -e $1 || ! $(file $1) =~ "x86" ]]; then
+if [[ ! -e $1 ]]; then
 echo "Error : Not an image file, or file doesn't exist"
 exit
 fi

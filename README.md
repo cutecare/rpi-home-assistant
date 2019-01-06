@@ -6,7 +6,7 @@
 
 ```
 sudo -s
-apt-get -y update && apt-get -y install docker-ce
+apt-get -y update && apt-get -y install docker-ce=18.06.1~ce~3-0~raspbian
 mkdir /home/home-assistant
 docker run -d --name hass --restart unless-stopped -p 8123:8123 -p 8080:8080 --cap-add=SYS_ADMIN --cap-add=NET_ADMIN --net=host -v /home/home-assistant:/config --device=/dev/video0 -v /dev:/dev -v /etc/localtime:/etc/localtime:ro cutecare/rpi-home-assistant:latest
 ```

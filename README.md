@@ -13,6 +13,14 @@ docker run -d --name hass --restart unless-stopped -p 8123:8123 -p 8080:8080 --c
 
 Параметры контейнера (hass) указаны таким образом, чтобы Home Assistant запускался при старте ОС, веб-интерфейс открывался по порту 8123, конфигурационные файлы находились в каталоге /home/home-assistant
 
+### Отключение Swap
+
+Чтобы сберечь ресурс SD-карты, отключим своп при помощи следующих команд:
+```
+sudo -s
+dphys-swapfile swapoff && dphys-swapfile uninstall && update-rc.d dphys-swapfile remove
+```
+
 ### Просмотр логов Home Assistant
 
 ```
